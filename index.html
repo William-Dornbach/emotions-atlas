@@ -5,29 +5,42 @@
     <title>The Atlas of Human Emotion</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f8f9fa; }
-        #chart-container { position: relative; width: 1000px; height: 600px; margin: 20px auto; background: white; border: 1px solid #ddd; }
-        .tooltip {
-            position: absolute; text-align: center; padding: 6px; font-size: 12px; background: rgba(0,0,0,0.8);
-            color: #fff; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s;
-        }
-        /* Modal Styles */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;
-        }
-        .modal-content {
-            background: #fff; padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative;
-        }
-        .close-btn { position: absolute; top: 10px; right: 15px; cursor: pointer; font-size: 20px; font-weight: bold; }
-        .emotion-title { margin-top: 0; color: #333; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 10px;}
-        .meta-tag { display: inline-block; padding: 4px 8px; background: #eee; border-radius: 12px; font-size: 12px; margin-right: 5px; margin-bottom: 10px;}
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px;}
+        #chart-container { position: relative; width: 1400px; height: 900px; margin: 0 auto; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);}
+        
+        /* Tooltip & Modal Styles */
+        .tooltip { position: absolute; text-align: center; padding: 8px; font-size: 13px; background: rgba(0,0,0,0.85); color: #fff; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 100;}
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: #fff; padding: 24px; border-radius: 8px; width: 450px; max-width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; }
+        .close-btn { position: absolute; top: 12px; right: 18px; cursor: pointer; font-size: 24px; font-weight: bold; color: #666;}
+        .emotion-title { margin-top: 0; color: #111; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 12px;}
+        .meta-tag { display: inline-block; padding: 4px 10px; background: #f0f0f0; border-radius: 12px; font-size: 13px; margin-right: 6px; margin-bottom: 12px; font-weight: 600;}
+        
+        /* Legend Overlay */
+        #legend-panel { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.95); border: 1px solid #ccc; padding: 15px; border-radius: 6px; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+        .legend-section { margin-bottom: 15px; }
+        .legend-section strong { display: block; margin-bottom: 8px; font-size: 14px; border-bottom: 1px solid #ddd; padding-bottom: 4px;}
+        .legend-row { display: flex; align-items: center; margin-bottom: 5px; }
+        .color-box { width: 16px; height: 16px; margin-right: 8px; border-radius: 3px; }
+        .shape-box { width: 16px; height: 16px; margin-right: 8px; border-radius: 50%; border: 2px solid #333; }
     </style>
 </head>
 <body>
 
-<div id="chart-container"></div>
+<div id="chart-container">
+    <div id="legend-panel">
+        <div class="legend-section">
+            <strong>Emotion Family</strong>
+            <div id="color-legend"></div>
+        </div>
+        <div class="legend-section" style="margin-bottom: 0;">
+            <strong>Taxonomy Status</strong>
+            <div class="legend-row"><div class="shape-box" style="background: #555;"></div> Wheel Baseline</div>
+            <div class="legend-row"><div class="shape-box" style="background: #fff;"></div> Beyond-Wheel</div>
+            <div class="legend-row"><div class="shape-box" style="background: repeating-linear-gradient(45deg, #fff, #fff 2px, #555 2px, #555 4px);"></div> Forgotten Nuances</div>
+        </div>
+    </div>
+</div>
 <div id="tooltip" class="tooltip"></div>
 
 <!-- Modal -->
@@ -36,17 +49,17 @@
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2 id="modal-title" class="emotion-title">Emotion Name</h2>
         <div>
-            <span class="meta-tag" id="modal-valence">Valence: </span>
-            <span class="meta-tag" id="modal-intensity">Intensity: </span>
-            <span class="meta-tag" id="modal-status">Status: </span>
+            <span class="meta-tag" id="modal-valence"></span>
+            <span class="meta-tag" id="modal-intensity"></span>
+            <span class="meta-tag" id="modal-status"></span>
         </div>
-        <p id="modal-definition">Definition goes here.</p>
+        <p id="modal-definition" style="line-height: 1.5; color: #444;"></p>
     </div>
 </div>
 
 <script>
-    const width = 1000, height = 600;
-    const margin = { top: 60, right: 40, bottom: 60, left: 60 };
+    const width = 1400, height = 900;
+    const margin = { top: 60, right: 200, bottom: 60, left: 60 }; 
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
@@ -54,71 +67,108 @@
         .attr("width", width)
         .attr("height", height);
     
-    // Add hatched pattern for "Forgotten Nuances"
+    // Crosshatch Pattern for Forgotten Nuances
     svg.append("defs")
         .append("pattern")
         .attr("id", "crosshatch")
-        .attr("width", 4).attr("height", 4)
+        .attr("width", 6).attr("height", 6)
         .attr("patternTransform", "rotate(45 0 0)")
         .attr("patternUnits", "userSpaceOnUse")
         .append("line")
-        .attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 4)
+        .attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 6)
         .attr("stroke", "#444").attr("stroke-width", 2);
 
     const chart = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Load CSV
+    // Color Palette based on original Atlas image mapped to Primary_Family
+    const colors = {
+        'Anger': '#d3d3d3',   // Light Gray
+        'Fear': '#8da0cb',    // Slate Blue
+        'Sadness': '#a6cee3', // Light Blue/Teal
+        'Disgust': '#8c7a70', // Brown-Gray
+        'Bad': '#cbb692',     // Khaki
+        'Surprise': '#ead77c',// Gold/Yellow
+        'Joy': '#fdbf6f'      // Orange
+    };
+
+    // Populate Color Legend
+    const colorLegend = document.getElementById('color-legend');
+    Object.keys(colors).forEach(family => {
+        colorLegend.innerHTML += `<div class="legend-row"><div class="color-box" style="background: ${colors[family]}; border: 1px solid #999;"></div> ${family}</div>`;
+    });
+
     d3.csv("emotion_taxonomy.csv").then(data => {
-        
         data.forEach(d => {
-            // 1. Map Categorical Text to Coordinate Grid Percentages
-            let vPos = d.Valence === 'Negative' ? 0.25 : (d.Valence === 'Positive' ? 0.75 : 0.5);
-            let iPos = d.Intensity === 'High' ? 0.25 : (d.Intensity === 'Low' ? 0.75 : 0.5); 
+            // Grid Coordinates mapping Categorical values
+            let vPos = d.Valence === 'Negative' ? 0.2 : (d.Valence === 'Positive' ? 0.8 : 0.5);
+            let iPos = d.Intensity === 'High' ? 0.2 : (d.Intensity === 'Low' ? 0.8 : 0.5); 
             
-            // 2. Apply Coordinates with Random Scatter (Prevents overlapping centers)
-            d.x = (vPos * innerWidth) + (Math.random() * 60 - 30);
-            d.y = (iPos * innerHeight) + (Math.random() * 60 - 30);
-            d.r = 14; 
+            d.x = (vPos * innerWidth) + (Math.random() * 80 - 40);
+            d.y = (iPos * innerHeight) + (Math.random() * 80 - 40);
+            
+            // Increased collision radius significantly to fit text
+            d.r = 30; 
         });
 
-        // 3. Resolve Overlaps using Force Simulation
+        // Force Simulation to prevent overlaps
         const simulation = d3.forceSimulation(data)
-            .force("x", d3.forceX(d => d.x).strength(0.3))
-            .force("y", d3.forceY(d => d.y).strength(0.3))
+            .force("x", d3.forceX(d => d.x).strength(0.2))
+            .force("y", d3.forceY(d => d.y).strength(0.2))
             .force("collide", d3.forceCollide(d => d.r + 2).iterations(4))
             .stop();
 
-        // Run physics engine statically before rendering
-        for (let i = 0; i < 150; ++i) simulation.tick();
+        for (let i = 0; i < 200; ++i) simulation.tick();
 
-        // 4. Render Interactive Points
         const points = chart.selectAll(".point")
             .data(data)
             .enter().append("g")
             .attr("transform", d => `translate(${d.x},${d.y})`)
             .style("cursor", "pointer");
 
-        // Apply Taxonomy Status Styles (Solid, Hollow, Patterned)
+        // Render Colored Circles
         points.append("circle")
             .attr("r", d => d.r)
             .attr("fill", d => {
-                if (d.Wheel_Status === 'Wheel_Baseline') return '#444';
+                if (d.Wheel_Status === 'Wheel_Baseline') return colors[d.Primary_Family] || '#ccc';
                 if (d.Wheel_Status === 'Forgotten_Nuance') return 'url(#crosshatch)';
                 return '#fff'; // Beyond_Wheel (Hollow)
             })
-            .attr("stroke", "#444")
-            .attr("stroke-width", 2);
+            .attr("stroke", d => d.Wheel_Status === 'Wheel_Baseline' ? '#333' : (colors[d.Primary_Family] || '#333'))
+            .attr("stroke-width", 2.5);
 
-        // 5. Update Accessors for Tooltip & Modal based on exact CSV headers
+        // Render Permanent Text Labels
+        points.append("text")
+            .text(d => d.Emotion_Term)
+            .attr("text-anchor", "middle")
+            .attr("dy", 4) // Center vertically
+            .style("font-size", "10px")
+            .style("font-family", "Arial, sans-serif")
+            .style("font-weight", "bold")
+            // Dark text for light backgrounds, white text for dark crosshatching
+            .style("fill", d => d.Wheel_Status === 'Forgotten_Nuance' ? '#000' : '#222')
+            // White outline for readability on colored backgrounds
+            .style("stroke", "#fff")
+            .style("stroke-width", "2px")
+            .style("paint-order", "stroke")
+            .style("pointer-events", "none");
+
+        // Tooltip & Interactions
         const tooltip = d3.select("#tooltip");
         
         points.on("mouseover", (event, d) => {
+            // Highlight node on hover
+            d3.select(event.currentTarget).select("circle").attr("stroke", "#000").attr("stroke-width", 4);
+            
             tooltip.style("opacity", 1)
-                   .html(`<strong>${d.Emotion_Term}</strong>`)
-                   .style("left", (event.pageX + 10) + "px")
-                   .style("top", (event.pageY - 20) + "px");
-        }).on("mouseout", () => {
+                   .html(`<strong>${d.Emotion_Term}</strong><br><span style="color:#ccc">${d.Primary_Family}</span>`)
+                   .style("left", (event.pageX + 15) + "px")
+                   .style("top", (event.pageY - 25) + "px");
+        }).on("mouseout", (event, d) => {
+            // Restore stroke
+            d3.select(event.currentTarget).select("circle")
+              .attr("stroke", d.Wheel_Status === 'Wheel_Baseline' ? '#333' : (colors[d.Primary_Family] || '#333'))
+              .attr("stroke-width", 2.5);
             tooltip.style("opacity", 0);
         }).on("click", (event, d) => {
             openModal(d);
