@@ -6,7 +6,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px;}
-        #chart-container { position: relative; width: 1400px; height: 900px; margin: 0 auto; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);}
+        #chart-container { position: relative; width: 1400px; height: 900px; margin: 0 auto; background: white; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden;}
         
         /* Tooltip & Modal Styles */
         .tooltip { position: absolute; text-align: center; padding: 8px; font-size: 13px; background: rgba(0,0,0,0.85); color: #fff; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 100;}
@@ -16,28 +16,45 @@
         .emotion-title { margin-top: 0; color: #111; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 12px;}
         .meta-tag { display: inline-block; padding: 4px 10px; background: #f0f0f0; border-radius: 12px; font-size: 13px; margin-right: 6px; margin-bottom: 12px; font-weight: 600;}
         
-        /* Legend Overlay */
-        #legend-panel { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.95); border: 1px solid #ccc; padding: 15px; border-radius: 6px; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
-        .legend-section { margin-bottom: 15px; }
+        /* Legend & Controls */
+        #legend-panel { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.95); border: 1px solid #ccc; padding: 15px; border-radius: 6px; font-size: 13px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); width: 220px; z-index: 10;}
+        .legend-section { margin-bottom: 20px; }
         .legend-section strong { display: block; margin-bottom: 8px; font-size: 14px; border-bottom: 1px solid #ddd; padding-bottom: 4px;}
-        .legend-row { display: flex; align-items: center; margin-bottom: 5px; }
-        .color-box { width: 16px; height: 16px; margin-right: 8px; border-radius: 3px; }
+        
+        .legend-clickable { display: flex; align-items: center; margin-bottom: 6px; cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s, opacity 0.2s; user-select: none;}
+        .legend-clickable:hover { background: #f0f0f0; }
+        
+        .color-box { width: 16px; height: 16px; margin-right: 8px; border-radius: 3px; border: 1px solid #999;}
         .shape-box { width: 16px; height: 16px; margin-right: 8px; border-radius: 50%; border: 2px solid #333; }
+        
+        .control-group { margin-bottom: 15px; }
+        .control-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px;}
+        select { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-size: 13px;}
+        
+        .hint-text { font-size: 11px; color: #777; margin-bottom: 10px; font-style: italic;}
     </style>
 </head>
 <body>
 
 <div id="chart-container">
     <div id="legend-panel">
+        <div class="control-group">
+            <label for="layout-toggle">Layout Organization</label>
+            <select id="layout-toggle">
+                <option value="dimensional">Dimensional (Valence vs. Intensity)</option>
+                <option value="family">Clustered by Emotion Family</option>
+            </select>
+        </div>
+
+        <div class="hint-text">Click items below to filter data:</div>
+
         <div class="legend-section">
             <strong>Emotion Family</strong>
             <div id="color-legend"></div>
         </div>
         <div class="legend-section" style="margin-bottom: 0;">
             <strong>Taxonomy Status</strong>
-            <div class="legend-row"><div class="shape-box" style="background: #555;"></div> Wheel Baseline</div>
-            <div class="legend-row"><div class="shape-box" style="background: #fff;"></div> Beyond-Wheel</div>
-            <div class="legend-row"><div class="shape-box" style="background: repeating-linear-gradient(45deg, #fff, #fff 2px, #555 2px, #555 4px);"></div> Forgotten Nuances</div>
+            <div id="status-legend"></div>
         </div>
     </div>
 </div>
@@ -58,8 +75,9 @@
 </div>
 
 <script>
+    // --- Setup & Canvas ---
     const width = 1400, height = 900;
-    const margin = { top: 60, right: 200, bottom: 60, left: 60 }; 
+    const margin = { top: 80, right: 280, bottom: 80, left: 100 }; 
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
@@ -67,7 +85,7 @@
         .attr("width", width)
         .attr("height", height);
     
-    // Crosshatch Pattern for Forgotten Nuances
+    // Crosshatch Pattern Definition
     svg.append("defs")
         .append("pattern")
         .attr("id", "crosshatch")
@@ -81,99 +99,206 @@
     const chart = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Color Palette based on original Atlas image mapped to Primary_Family
-    const colors = {
-        'Anger': '#d3d3d3',   // Light Gray
-        'Fear': '#8da0cb',    // Slate Blue
-        'Sadness': '#a6cee3', // Light Blue/Teal
-        'Disgust': '#8c7a70', // Brown-Gray
-        'Bad': '#cbb692',     // Khaki
-        'Surprise': '#ead77c',// Gold/Yellow
-        'Joy': '#fdbf6f'      // Orange
-    };
+    // --- State Variables ---
+    let allData = [];
+    let layoutMode = 'dimensional';
+    
+    const families = ['Anger', 'Fear', 'Sadness', 'Disgust', 'Bad', 'Surprise', 'Joy'];
+    const colors = { 'Anger': '#d3d3d3', 'Fear': '#8da0cb', 'Sadness': '#a6cee3', 'Disgust': '#8c7a70', 'Bad': '#cbb692', 'Surprise': '#ead77c', 'Joy': '#fdbf6f' };
+    
+    const statuses = [
+        { id: 'Wheel_Baseline', label: 'Wheel Baseline', bg: 'var(--family-color, #555)' },
+        { id: 'Beyond_Wheel', label: 'Beyond-Wheel', bg: '#fff' },
+        { id: 'Forgotten_Nuance', label: 'Forgotten Nuances', bg: 'repeating-linear-gradient(45deg, #fff, #fff 2px, #555 2px, #555 4px)' }
+    ];
 
-    // Populate Color Legend
-    const colorLegend = document.getElementById('color-legend');
-    Object.keys(colors).forEach(family => {
-        colorLegend.innerHTML += `<div class="legend-row"><div class="color-box" style="background: ${colors[family]}; border: 1px solid #999;"></div> ${family}</div>`;
+    let activeFamilies = new Set(families);
+    let activeStatuses = new Set(statuses.map(s => s.id));
+    let simulation;
+
+    // --- Background Layers (Axes & Labels) ---
+    const axesLayer = chart.append("g").attr("id", "axes-layer");
+    
+    // Dimensional Axes
+    axesLayer.append("line").attr("x1", 0).attr("y1", innerHeight).attr("x2", innerWidth).attr("y2", innerHeight).attr("stroke", "#bbb").attr("stroke-width", 2);
+    axesLayer.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", innerHeight).attr("stroke", "#bbb").attr("stroke-width", 2);
+    
+    // Axis Labels
+    const xLabels = [ {text: "Negative", pos: 0.15}, {text: "Ambivalent/Complex", pos: 0.5}, {text: "Positive", pos: 0.85} ];
+    const yLabels = [ {text: "High Intensity", pos: 0.15}, {text: "Medium", pos: 0.5}, {text: "Low Intensity", pos: 0.85} ];
+
+    xLabels.forEach(l => {
+        axesLayer.append("text").attr("x", innerWidth * l.pos).attr("y", innerHeight + 25).text(l.text).attr("text-anchor", "middle").style("font-size", "14px").style("fill", "#666").style("font-weight", "bold");
+        axesLayer.append("line").attr("x1", innerWidth * l.pos).attr("y1", innerHeight).attr("x2", innerWidth * l.pos).attr("y2", innerHeight + 6).attr("stroke", "#bbb").attr("stroke-width", 2);
     });
 
+    yLabels.forEach(l => {
+        axesLayer.append("text").attr("x", -15).attr("y", innerHeight * l.pos).text(l.text).attr("text-anchor", "end").attr("alignment-baseline", "middle").style("font-size", "14px").style("fill", "#666").style("font-weight", "bold");
+        axesLayer.append("line").attr("x1", -6).attr("y1", innerHeight * l.pos).attr("x2", 0).attr("y2", innerHeight * l.pos).attr("stroke", "#bbb").attr("stroke-width", 2);
+    });
+
+    axesLayer.append("text").attr("x", innerWidth / 2).attr("y", innerHeight + 60).text("VALENCE").attr("text-anchor", "middle").style("font-size", "18px").style("letter-spacing", "2px").style("font-weight", "bold").style("fill", "#333");
+    
+    // Family Layout Titles (Hidden by default)
+    const familyLabelsLayer = chart.append("g").attr("id", "family-labels").style("opacity", 0);
+    families.forEach((f, idx) => {
+        const col = idx % 4;
+        const row = Math.floor(idx / 4);
+        familyLabelsLayer.append("text")
+            .attr("x", (col + 0.5) * (innerWidth / 4))
+            .attr("y", (row + 0.5) * (innerHeight / 2.2) - 130)
+            .text(f)
+            .attr("text-anchor", "middle")
+            .style("font-size", "22px")
+            .style("font-weight", "bold")
+            .style("fill", colors[f])
+            .style("stroke", "#333").style("stroke-width", "0.5px");
+    });
+
+    // --- Build Dynamic UI Legends ---
+    const colorLegend = document.getElementById('color-legend');
+    families.forEach(family => {
+        const div = document.createElement('div');
+        div.className = 'legend-clickable'; div.id = `legend-fam-${family}`;
+        div.innerHTML = `<div class="color-box" style="background: ${colors[family]};"></div> <span>${family}</span>`;
+        div.onclick = () => {
+            activeFamilies.has(family) ? activeFamilies.delete(family) : activeFamilies.add(family);
+            updateLegendUI(); updateData();
+        };
+        colorLegend.appendChild(div);
+    });
+
+    const statusLegend = document.getElementById('status-legend');
+    statuses.forEach(status => {
+        const div = document.createElement('div');
+        div.className = 'legend-clickable'; div.id = `legend-stat-${status.id}`;
+        div.innerHTML = `<div class="shape-box" style="background: ${status.bg};"></div> <span>${status.label}</span>`;
+        div.onclick = () => {
+            activeStatuses.has(status.id) ? activeStatuses.delete(status.id) : activeStatuses.add(status.id);
+            updateLegendUI(); updateData();
+        };
+        statusLegend.appendChild(div);
+    });
+
+    function updateLegendUI() {
+        families.forEach(f => document.getElementById(`legend-fam-${f}`).style.opacity = activeFamilies.has(f) ? 1 : 0.3);
+        statuses.forEach(s => document.getElementById(`legend-stat-${s.id}`).style.opacity = activeStatuses.has(s.id) ? 1 : 0.3);
+    }
+
+    // Toggle Layout Event
+    document.getElementById('layout-toggle').addEventListener('change', (e) => {
+        layoutMode = e.target.value;
+        
+        // Toggle Background Elements
+        axesLayer.transition().duration(600).style("opacity", layoutMode === 'dimensional' ? 1 : 0);
+        familyLabelsLayer.transition().duration(600).style("opacity", layoutMode === 'family' ? 1 : 0);
+        
+        updateData(); // Restart simulation to new coordinates
+    });
+
+
+    // --- Core Logic & Force Simulation ---
+    function getTargetX(d) {
+        if (layoutMode === 'dimensional') {
+            return (d.Valence === 'Negative' ? 0.15 : (d.Valence === 'Positive' ? 0.85 : 0.5)) * innerWidth;
+        } else {
+            const idx = families.indexOf(d.Primary_Family);
+            return ((idx % 4) + 0.5) * (innerWidth / 4);
+        }
+    }
+
+    function getTargetY(d) {
+        if (layoutMode === 'dimensional') {
+            return (d.Intensity === 'High' ? 0.15 : (d.Intensity === 'Low' ? 0.85 : 0.5)) * innerHeight;
+        } else {
+            const idx = families.indexOf(d.Primary_Family);
+            return (Math.floor(idx / 4) + 0.5) * (innerHeight / 2.2);
+        }
+    }
+
     d3.csv("emotion_taxonomy.csv").then(data => {
-        data.forEach(d => {
-            // Grid Coordinates mapping Categorical values
-            let vPos = d.Valence === 'Negative' ? 0.2 : (d.Valence === 'Positive' ? 0.8 : 0.5);
-            let iPos = d.Intensity === 'High' ? 0.2 : (d.Intensity === 'Low' ? 0.8 : 0.5); 
-            
-            d.x = (vPos * innerWidth) + (Math.random() * 80 - 40);
-            d.y = (iPos * innerHeight) + (Math.random() * 80 - 40);
-            
-            // Increased collision radius significantly to fit text
-            d.r = 30; 
+        allData = data;
+        allData.forEach(d => {
+            d.x = innerWidth / 2; d.y = innerHeight / 2;
+            d.r = 30; // Radius
         });
 
-        // Force Simulation to prevent overlaps
-        const simulation = d3.forceSimulation(data)
-            .force("x", d3.forceX(d => d.x).strength(0.2))
-            .force("y", d3.forceY(d => d.y).strength(0.2))
-            .force("collide", d3.forceCollide(d => d.r + 2).iterations(4))
-            .stop();
+        simulation = d3.forceSimulation()
+            .force("x", d3.forceX(d => getTargetX(d)).strength(0.1))
+            .force("y", d3.forceY(d => getTargetY(d)).strength(0.1))
+            .force("collide", d3.forceCollide(d => d.r + 3).iterations(4))
+            .on("tick", () => {
+                chart.selectAll(".node").attr("transform", d => `translate(${d.x},${d.y})`);
+            });
 
-        for (let i = 0; i < 200; ++i) simulation.tick();
+        updateData();
+    });
 
-        const points = chart.selectAll(".point")
-            .data(data)
-            .enter().append("g")
+    function updateData() {
+        const filteredData = allData.filter(d => activeFamilies.has(d.Primary_Family) && activeStatuses.has(d.Wheel_Status));
+        
+        const nodes = chart.selectAll(".node").data(filteredData, d => d.Emotion_Term);
+
+        // Exit
+        nodes.exit().transition().duration(400).style("opacity", 0).remove();
+
+        // Enter
+        const enterNodes = nodes.enter().append("g")
+            .attr("class", "node")
             .attr("transform", d => `translate(${d.x},${d.y})`)
-            .style("cursor", "pointer");
+            .style("opacity", 0)
+            .style("cursor", "pointer")
+            .on("mouseover", handleMouseOver)
+            .on("mouseout", handleMouseOut)
+            .on("click", (event, d) => openModal(d));
 
-        // Render Colored Circles
-        points.append("circle")
+        enterNodes.append("circle")
             .attr("r", d => d.r)
             .attr("fill", d => {
                 if (d.Wheel_Status === 'Wheel_Baseline') return colors[d.Primary_Family] || '#ccc';
                 if (d.Wheel_Status === 'Forgotten_Nuance') return 'url(#crosshatch)';
-                return '#fff'; // Beyond_Wheel (Hollow)
+                return '#fff';
             })
             .attr("stroke", d => d.Wheel_Status === 'Wheel_Baseline' ? '#333' : (colors[d.Primary_Family] || '#333'))
             .attr("stroke-width", 2.5);
 
-        // Render Permanent Text Labels
-        points.append("text")
+        enterNodes.append("text")
             .text(d => d.Emotion_Term)
             .attr("text-anchor", "middle")
-            .attr("dy", 4) // Center vertically
+            .attr("dy", 4)
             .style("font-size", "10px")
             .style("font-family", "Arial, sans-serif")
             .style("font-weight", "bold")
-            // Dark text for light backgrounds, white text for dark crosshatching
             .style("fill", d => d.Wheel_Status === 'Forgotten_Nuance' ? '#000' : '#222')
-            // White outline for readability on colored backgrounds
             .style("stroke", "#fff")
             .style("stroke-width", "2px")
             .style("paint-order", "stroke")
             .style("pointer-events", "none");
 
-        // Tooltip & Interactions
-        const tooltip = d3.select("#tooltip");
-        
-        points.on("mouseover", (event, d) => {
-            // Highlight node on hover
-            d3.select(event.currentTarget).select("circle").attr("stroke", "#000").attr("stroke-width", 4);
-            
-            tooltip.style("opacity", 1)
-                   .html(`<strong>${d.Emotion_Term}</strong><br><span style="color:#ccc">${d.Primary_Family}</span>`)
-                   .style("left", (event.pageX + 15) + "px")
-                   .style("top", (event.pageY - 25) + "px");
-        }).on("mouseout", (event, d) => {
-            // Restore stroke
-            d3.select(event.currentTarget).select("circle")
-              .attr("stroke", d.Wheel_Status === 'Wheel_Baseline' ? '#333' : (colors[d.Primary_Family] || '#333'))
-              .attr("stroke-width", 2.5);
-            tooltip.style("opacity", 0);
-        }).on("click", (event, d) => {
-            openModal(d);
-        });
-    });
+        enterNodes.transition().duration(400).style("opacity", 1);
+
+        // Update Physics
+        simulation.nodes(filteredData);
+        simulation.alpha(0.6).restart(); // Restart physics with a bit of energy to move them
+    }
+
+    // --- Interactions ---
+    const tooltip = d3.select("#tooltip");
+
+    function handleMouseOver(event, d) {
+        d3.select(this).select("circle").attr("stroke", "#000").attr("stroke-width", 4);
+        tooltip.style("opacity", 1)
+               .html(`<strong>${d.Emotion_Term}</strong><br><span style="color:#ccc">${d.Primary_Family}</span>`)
+               .style("left", (event.pageX + 15) + "px")
+               .style("top", (event.pageY - 25) + "px");
+    }
+
+    function handleMouseOut(event, d) {
+        d3.select(this).select("circle")
+          .attr("stroke", d.Wheel_Status === 'Wheel_Baseline' ? '#333' : (colors[d.Primary_Family] || '#333'))
+          .attr("stroke-width", 2.5);
+        tooltip.style("opacity", 0);
+    }
 
     function openModal(data) {
         document.getElementById('modal-title').innerText = data.Emotion_Term;
