@@ -1,0 +1,220 @@
+Primary_Family,Emotion_Term,Wheel_Status,Intensity,Valence,Precise_Definition
+Bad,Bad,Wheel_Baseline,Low,Negative,"A diffuse, non-specific state of negative valence and generalized emotional disquiet."
+Bad,Bored,Wheel_Baseline,Low,Negative,An unpleasant state of low arousal characterized by lack of interest and difficulty concentrating on available stimuli.
+Bad,Indifferent,Wheel_Baseline,Low,Ambivalent/Complex,"A state of neutral detachment marked by an absence of enthusiasm, bias, or emotional investment."
+Bad,Apathetic,Wheel_Baseline,Low,Negative,"A suppression or blunting of emotional responsiveness, motivation, and concern."
+Bad,Busy,Wheel_Baseline,Medium,Negative,An agitated affective state of being encumbered and preoccupied by competing situational demands.
+Bad,Pressured,Wheel_Baseline,Medium,Negative,A feeling of coercive burden or strain originating from external expectations or urgency.
+Bad,Rushed,Wheel_Baseline,Medium,Negative,"An agitated, hurried feeling marked by an acute sense of insufficient time."
+Bad,Stressed,Wheel_Baseline,Medium,Negative,A state of mental and psychophysiological tension resulting from adverse or demanding circumstances.
+Bad,Overwhelmed,Wheel_Baseline,High,Negative,A sensation of cognitive and emotional flooding where internal coping mechanisms are completely inundated.
+Bad,Out of control,Wheel_Baseline,High,Negative,An acute distress stemming from perceived total loss of agency and self-governance.
+Bad,Tired,Wheel_Baseline,Low,Negative,"An affective weariness and depleted emotional reserve, distinct from purely muscular exhaustion."
+Bad,Sleepy,Wheel_Baseline,Low,Negative,A drowsy affective lethargy characterized by heaviness and reduced engagement with the environment.
+Bad,Unfocussed,Wheel_Baseline,Low,Negative,"A scattered, diffuse mental-emotional state lacking intentional direction and cognitive anchorage."
+Bad,Languor,Beyond_Wheel,Low,Ambivalent/Complex,"A pleasant or melancholy state of relaxed inertia and dreamy, still fatigue."
+Bad,Ennui,Beyond_Wheel,Medium,Negative,"A profound, existential listlessness and spiritual dissatisfaction arising from chronic lack of stimulation."
+Bad,Restlessness,Beyond_Wheel,Medium,Negative,An uncomfortable internal agitation driving an urge to move or alter current circumstances.
+Bad,Overstimulation,Beyond_Wheel,High,Negative,Sensory and affective exhaustion resulting from cognitive inputs exceeding processing bandwidth.
+Bad,Sluggishness,Beyond_Wheel,Low,Negative,"A viscous, slow-moving heaviness of mood and somatic-affective responsiveness."
+Bad,Anomie,Forgotten_Nuance,High,Negative,A profound feeling of alienation and rootlessness caused by the disintegration of social norms and values.
+Bad,Weltschmerz,Forgotten_Nuance,Medium,Negative,"A deep, world-weary sadness born from the perceived gap between an ideal world and actual reality."
+Bad,Taedium Vitae,Forgotten_Nuance,High,Negative,"A debilitating weariness with existence itself, marked by acute disgust for daily life."
+Bad,Listlessness,Beyond_Wheel,Low,Negative,A state of passive despondency without sufficient vitality to initiate movement or thought.
+Fear,Fearful,Wheel_Baseline,Medium,Negative,"An emotional reaction to perceived immediate or impending danger, marked by heightened arousal."
+Fear,Scared,Wheel_Baseline,Medium,Negative,An immediate fright response triggered by a proximal or acute threat.
+Fear,Helpless,Wheel_Baseline,High,Negative,A paralyzing perception of utter powerlessness and lack of defensive options against adversity.
+Fear,Frightened,Wheel_Baseline,Medium,Negative,A sudden surge of fearful alarm prompted by an immediate hazard or startling encounter.
+Fear,Anxious,Wheel_Baseline,Medium,Negative,"An apprehensive, future-oriented distress focused on uncertain or unpredictable threats."
+Fear,Worried,Wheel_Baseline,Low,Negative,"Persistent, repetitive cognitive and affective apprehension concerning potential negative outcomes."
+Fear,Insecure,Wheel_Baseline,Low,Negative,"A vulnerable self-doubt regarding one's worth, stability, or relational safety."
+Fear,Inadequate,Wheel_Baseline,Medium,Negative,"A painful subjective sense of lacking sufficient competence, capacity, or value for a situation."
+Fear,Inferior,Wheel_Baseline,Medium,Negative,A distressing conviction that one is qualitatively lesser than others in status or competence.
+Fear,Weak,Wheel_Baseline,Low,Negative,"An affective experience of diminished vitality, resilience, and personal potency."
+Fear,Worthless,Wheel_Baseline,High,Negative,The devastating affective conviction that one possesses no intrinsic value or utility.
+Fear,Insignificant,Wheel_Baseline,Low,Negative,"A dispiriting feeling of being microscopic, negligible, and without consequence to the world."
+Fear,Rejected,Wheel_Baseline,High,Negative,"The acute pain of social repudiation, ostracism, or unwanted dismissal by an attachment figure."
+Fear,Excluded,Wheel_Baseline,Medium,Negative,"The cold, alienating sting of being purposefully left outside a peer group or social circle."
+Fear,Persecuted,Wheel_Baseline,High,Negative,"A besieged dread of being deliberately targeted, harassed, or mistreated by hostile agents."
+Fear,Threatened,Wheel_Baseline,Medium,Negative,"A defensive, heightened vigilance triggered by an apparent danger to one's safety or boundaries."
+Fear,Nervous,Wheel_Baseline,Low,Negative,"Mild, jittery somatic-emotional apprehension prior to an uncertain, high-stakes event."
+Fear,Exposed,Wheel_Baseline,Medium,Negative,"A precarious, unshielded vulnerability where one's private deficiencies or truths lie visible."
+Fear,Apprehension,Beyond_Wheel,Low,Negative,"A subtle, anticipatory unease regarding a negative possibility lurking in the immediate future."
+Fear,Trepidation,Beyond_Wheel,Medium,Negative,"Tremulous, cautious dread accompanying the approach of a daunting task or encounter."
+Fear,Foreboding,Beyond_Wheel,High,Negative,"A heavy, ominous intuition that catastrophe or profound misfortune is imminent."
+Fear,Dread,Beyond_Wheel,High,Negative,"A paralyzing, deep-seated terror focused on an inevitable, excruciating future event."
+Fear,Panic,Beyond_Wheel,High,Negative,"An overwhelming, dysregulated explosion of acute terror causing frantic fight-or-flight impulses."
+Fear,Paranoia,Beyond_Wheel,High,Negative,"An ungrounded, hypervigilant terror that others are malevolently plotting harm against oneself."
+Fear,Consternation,Beyond_Wheel,Medium,Negative,"A sudden, paralyzing shock and fearful confusion provoked by an unexpected crisis."
+Fear,Timidity,Beyond_Wheel,Low,Negative,"A habitual, shrinking bashfulness and fear of asserting oneself or making contact."
+Fear,Claustrophobia,Beyond_Wheel,High,Negative,"A suffocating, frantic panic triggered by physical or symbolic confinement and entrapment."
+Fear,Agoraphobia,Beyond_Wheel,High,Negative,"A terror of open, uncontained, or crowded spaces where escape might be impossible."
+Fear,Horripilation,Beyond_Wheel,Low,Negative,A visceral shudder of nervous goosebumps and primitive dread evoked by something uncanny.
+Fear,Angst,Forgotten_Nuance,Medium,Negative,"A free-floating, existential dread concerning the human condition, freedom, and personal mortality."
+Fear,Scopaesthesia,Forgotten_Nuance,Low,Negative,"The prickly, hyper-alert affective unease that one is being intently watched from an unseen angle."
+Fear,Imposterism,Forgotten_Nuance,Medium,Negative,The persistent dread that one's achievements are fraudulent and imminent exposure is unavoidable.
+Fear,Eerie Dread,Forgotten_Nuance,Medium,Negative,A disquieting chills-inducing feeling of unnatural wrongness in a familiar setting.
+Anger,Angry,Wheel_Baseline,Medium,Negative,"A high-arousal negative state mobilized against perceived injustice, obstruction, or violation."
+Anger,Let down,Wheel_Baseline,Low,Negative,Damped resentment and deflated expectations caused by the unreliability of a trusted party.
+Anger,Betrayed,Wheel_Baseline,High,Negative,The searing rage and grief caused by a violation of trust by an intimate ally.
+Anger,Resentful,Wheel_Baseline,Medium,Negative,"A persistent, smoldering bitterness over perceived unfair treatment or enduring slights."
+Anger,Humiliated,Wheel_Baseline,High,Negative,A degrading fusion of shame and indignation caused by the public destruction of one's dignity.
+Anger,Disrespected,Wheel_Baseline,Medium,Negative,"A sharp, defensive prick of indignation when one's boundaries or standing are disregarded."
+Anger,Ridiculed,Wheel_Baseline,Medium,Negative,The hot sting of hostile derision and contemptuous laughter aimed at oneself.
+Anger,Bitter,Wheel_Baseline,Medium,Negative,"A corrosive, enduring rancor nourished by accumulated losses, grievances, and unfairness."
+Anger,Indignant,Wheel_Baseline,Medium,Negative,"Righteous anger provoked by actions perceived as flagrantly unfair, unjust, or offensive."
+Anger,Violated,Wheel_Baseline,High,Negative,"An outraged, profoundly disturbed violation of bodily, psychological, or moral boundaries."
+Anger,Mad,Wheel_Baseline,Medium,Negative,"A blunt, general activation of emotional aggression and hostility toward an antagonist."
+Anger,Furious,Wheel_Baseline,High,Negative,"An incandescent, high-intensity surge of explosive and uncontrolled wrath."
+Anger,Jealous,Wheel_Baseline,Medium,Negative,"A possessive, resentful fear that an external rival will seize affection or status one claims."
+Anger,Aggressive,Wheel_Baseline,Medium,Negative,"An offensive-oriented posture driven by an urge to dominate, attack, or retaliate."
+Anger,Provoked,Wheel_Baseline,Medium,Negative,"A responsive, reactive anger ignited directly by deliberate antagonism or teasing."
+Anger,Hostile,Wheel_Baseline,Medium,Negative,"An ongoing, adversarial animosity characterized by ill-will and readiness to fight."
+Anger,Frustrated,Wheel_Baseline,Medium,Negative,"Tense, thwarted irritation arising when goal-directed behavior is persistently blocked."
+Anger,Infuriated,Wheel_Baseline,High,Negative,"An extreme escalation of frustration into overwhelming, breathless fury."
+Anger,Annoyed,Wheel_Baseline,Low,Negative,"Mild, prickling irritation provoked by repetitive, unpleasant, or inconvenient stimuli."
+Anger,Distant,Wheel_Baseline,Low,Negative,"A cold, defensive detachment that creates affective space to protect against conflict."
+Anger,Withdrawn,Wheel_Baseline,Low,Negative,An intentional retreat into sullen silence as a non-verbal expression of hurt and protest.
+Anger,Numb,Wheel_Baseline,Low,Negative,An adaptive affective flatlining where emotional processing shut down under extreme overload.
+Anger,Critical,Wheel_Baseline,Low,Negative,"A fault-finding, disparaging posture that evaluates targets through an uncharitable lens."
+Anger,Dismissive,Wheel_Baseline,Low,Negative,"A condescending rejection that denies the validity, worth, or reality of another's position."
+Anger,Choler,Beyond_Wheel,High,Negative,"A hot, bilious predisposition to quick-tempered fury and violent outbursts."
+Anger,Pique,Beyond_Wheel,Low,Negative,A momentary irritation or wounded vanity caused by a perceived slight or snub.
+Anger,Vindictiveness,Beyond_Wheel,Medium,Negative,"A malicious, retaliatory hunger to exact proportional retribution upon an offender."
+Anger,Exasperation,Beyond_Wheel,Medium,Negative,A state of depleted patience accompanied by irritated exhaustion at stubborn obstacles.
+Anger,Umbrage,Beyond_Wheel,Medium,Negative,"An offended, prickly sense of injury or resentment taken at an assumed insult."
+Anger,Wrath,Beyond_Wheel,High,Negative,"A monumental, punitive fury that seeks comprehensive destruction of the offending party."
+Anger,Irascibility,Beyond_Wheel,Medium,Negative,"A volatile, hair-trigger irritability where negligible triggers provoke outbursts."
+Anger,Envy,Beyond_Wheel,Medium,Negative,"A painful, begrudging discontent stirred by the superior advantages or fortune of another."
+Anger,Rancor,Beyond_Wheel,High,Negative,"An unyielding, venomous malice sustained over long periods toward an adversary."
+Anger,Nemesis,Forgotten_Nuance,High,Negative,"A dedicated, obsessive hostility focused entirely on the downfall of an archenemy."
+Anger,Ressentiment,Forgotten_Nuance,High,Negative,"A deep-seated, impotent resentment that reassesses and devalues the virtues of one's oppressor."
+Anger,Schadenfreude,Forgotten_Nuance,Medium,Ambivalent/Complex,"A covert, gleeful pleasure derived from witnessing the misfortune, failure, or downfall of another."
+Anger,Righteous Fury,Forgotten_Nuance,High,Negative,"Anger sanctified by moral absolute, yielding an uncompromising, holy desire to punish."
+Disgust,Disgusted,Wheel_Baseline,Medium,Negative,A primary revulsion response to physically contaminated or morally offensive objects.
+Disgust,Disapproving,Wheel_Baseline,Low,Negative,A negative moral or social judgment marked by subtle disdain and censure.
+Disgust,Judgmental,Wheel_Baseline,Low,Negative,"A critical, superior stance preoccupied with categorizing others' flaws and behaviors."
+Disgust,Embarrassed,Wheel_Baseline,Medium,Negative,"Awkward, uncomfortable self-consciousness triggered by an involuntary breach of social etiquette."
+Disgust,Disappointed,Wheel_Baseline,Medium,Negative,The deflated sorrow of realizing reality has fallen sharply below expectations.
+Disgust,Appalled,Wheel_Baseline,High,Negative,"A frozen, breathless horror and disgust provoked by an unspeakable or depraved act."
+Disgust,Revolted,Wheel_Baseline,High,Negative,"An intense, nauseous urge to expel, flee, or purge oneself of a vile contaminant."
+Disgust,Awful,Wheel_Baseline,Medium,Negative,"A heavy, unpleasant, visceral sense that things are foul, wrong, or calamitous."
+Disgust,Nauseated,Wheel_Baseline,High,Negative,"A visceral, stomach-churning aversion accompanied by an urge to physically vomit."
+Disgust,Detestable,Wheel_Baseline,High,Negative,A severe revulsion that renders its object worthy of unreserved hatred and avoidance.
+Disgust,Repelled,Wheel_Baseline,Medium,Negative,"A sharp, rejecting reflex that drives rapid physical or psychological distancing from an object."
+Disgust,Horrified,Wheel_Baseline,High,Negative,"A paralyzed, terrified revulsion provoked by an atrocity or grotesque sight."
+Disgust,Hesitant,Wheel_Baseline,Low,Negative,"A tentative, fearful reluctance to engage or commit due to perceived distasteful outcomes."
+Disgust,Abhorrence,Beyond_Wheel,High,Negative,"A severe, shuddering detestation combined with profound moral or physical repudiation."
+Disgust,Loathing,Beyond_Wheel,High,Negative,"A deep, enduring aversion suffused with hatred and visceral disgust."
+Disgust,Squeamishness,Beyond_Wheel,Low,Negative,"A fastidious, delicate revulsion easily triggered by blood, viscera, or messiness."
+Disgust,Contempt,Beyond_Wheel,Medium,Negative,"A cold, dismissive judgment that another entity is utterly base, unworthy, and beneath regard."
+Disgust,Aversion,Beyond_Wheel,Medium,Negative,"A persistent, reflexive distaste that instinctively repels one away from a stimulus."
+Disgust,Visceral Nausea,Beyond_Wheel,High,Negative,Somatic revulsion so intense it causes instantaneous physical gagging and vertigo.
+Disgust,Antipathy,Beyond_Wheel,Medium,Negative,"A settled, instinctive dislike and contrariness directed toward a person or concept."
+Disgust,Disdain,Beyond_Wheel,Medium,Negative,"A haughty, aristocratic scorn that views an inferior object with effortless dismissal."
+Disgust,Vile Creepiness,Forgotten_Nuance,Medium,Negative,"A skin-crawling revulsion evoked by something predatory, ambiguous, and slime-adjacent."
+Disgust,Abjection,Forgotten_Nuance,High,Negative,The destabilizing horror experienced when confronted with the breakdown of boundaries between self and filth.
+Disgust,Moral Revulsion,Forgotten_Nuance,High,Negative,"An organic, gag-reflex response triggered strictly by gross breaches of ethical taboos."
+Sadness,Sad,Wheel_Baseline,Medium,Negative,"A fundamental state of emotional pain, sorrow, and deflation associated with loss or grief."
+Sadness,Hurt,Wheel_Baseline,Medium,Negative,An internal ache of psychological injury provoked by unkindness or relational wounds.
+Sadness,Depressed,Wheel_Baseline,High,Negative,"A flattened, heavy despondency characterized by anhedonia and profound loss of vitality."
+Sadness,Empty,Wheel_Baseline,High,Negative,"A hollow, echoing numbness marked by the total absence of emotional resonance and meaning."
+Sadness,Guilty,Wheel_Baseline,Medium,Negative,The internal gnawing distress of having breached a moral imperative or harmed an innocent.
+Sadness,Remorseful,Wheel_Baseline,Medium,Negative,"A contrite, painful sorrow for one's actions coupled with a longing to make restitution."
+Sadness,Ashamed,Wheel_Baseline,High,Negative,A painful shrinking of the self under the conviction that one is fundamentally defective.
+Sadness,Despair,Wheel_Baseline,High,Negative,The complete surrender of hope in the face of insurmountable and eternal suffering.
+Sadness,Grief,Wheel_Baseline,High,Negative,"The crushing, multi-layered anguish precipitated by the death or permanent loss of a loved one."
+Sadness,Powerless,Wheel_Baseline,High,Negative,The agonizing realization that one is incapable of altering an adverse destiny.
+Sadness,Vulnerable,Wheel_Baseline,Medium,Negative,"A tender, undefended state where one feels susceptible to injury or emotional exposure."
+Sadness,Fragile,Wheel_Baseline,Medium,Negative,"A delicate, precarious feeling of being on the brink of shattering under external pressure."
+Sadness,Victimised,Wheel_Baseline,High,Negative,"The helpless, indignant sorrow of having suffered unprovoked harm at another's hands."
+Sadness,Lonely,Wheel_Baseline,Medium,Negative,The ache of unchosen social solitude and the painful deficit of belonging or understanding.
+Sadness,Isolated,Wheel_Baseline,Medium,Negative,A stark sense of emotional separation and cut-off alienation from the human world.
+Sadness,Abandoned,Wheel_Baseline,High,Negative,The terror and sorrow of being discarded and left alone by those responsible for one's care.
+Sadness,Melancholy,Beyond_Wheel,Low,Ambivalent/Complex,"A pensive, reflective sadness that carries a subtle, poignant, and bittersweet beauty."
+Sadness,Sorrow,Beyond_Wheel,Medium,Negative,"A deep, dignifying distress resulting from profound loss, tragedy, or sympathetic mourning."
+Sadness,Woe,Beyond_Wheel,High,Negative,"An expansive, heavy grief encompassing widespread affliction and misfortune."
+Sadness,Dejection,Beyond_Wheel,Medium,Negative,"A low-spirited, bowed despondency caused by defeat, rejection, or disappointment."
+Sadness,Heartache,Beyond_Wheel,High,Negative,"A sharp, somatic-affective pain felt in the chest over the loss of a vital romantic bond."
+Sadness,Desolation,Beyond_Wheel,High,Negative,"A bleak, windswept feeling of utter ruin, abandonment, and existential barrenness."
+Sadness,Bereavement,Beyond_Wheel,High,Negative,"The specialized, disorienting void left immediately in the wake of a loved one's death."
+Sadness,Mourning,Beyond_Wheel,Medium,Negative,"The outward and interior process of honoring, sorrowing, and digesting an irreversible loss."
+Sadness,Resignation,Forgotten_Nuance,Low,Ambivalent/Complex,"A quiet, unprotesting acceptance of a bleak, unalterable fate without bitterness or fight."
+Sadness,Bittersweetness,Forgotten_Nuance,Medium,Ambivalent/Complex,"A poignant fusion of happiness and sorrow, often tied to impermanence and nostalgia."
+Sadness,Saudade,Forgotten_Nuance,Medium,Ambivalent/Complex,"A deep, melancholic yearning for a loved person, place, or time that is irrecoverably distant."
+Sadness,Sehnsucht,Forgotten_Nuance,Medium,Ambivalent/Complex,"An ineffable, inconsolable longing for an unattainable perfection or idealized home."
+Sadness,Monachopsis,Forgotten_Nuance,Low,Negative,"The subtle but persistent feeling of being out of place, an alien marooned in normal life."
+Sadness,Dolor,Forgotten_Nuance,High,Negative,"An archaic, dignified expression of severe mental suffering and solemn woe."
+Surprise,Surprised,Wheel_Baseline,Medium,Ambivalent/Complex,"A brief, interruptive cognitive-affective startle caused by an unexpected stimulus."
+Surprise,Startled,Wheel_Baseline,Medium,Ambivalent/Complex,"An abrupt, somatic jolt of surprise triggering transient protective reflexes."
+Surprise,Dismayed,Wheel_Baseline,Medium,Negative,"Distress and consternation triggered by an unwelcome, disappointing surprise."
+Surprise,Shocked,Wheel_Baseline,High,Negative,"A stunned, uncomprehending paralysis in the immediate impact of an unforeseen trauma."
+Surprise,Confused,Wheel_Baseline,Low,Ambivalent/Complex,A disoriented cognitive-affective state marked by an inability to interpret conflicting data.
+Surprise,Perplexed,Wheel_Baseline,Medium,Ambivalent/Complex,"A furrowed, tangled bafflement resulting from a complicated, inexplicable phenomenon."
+Surprise,Disillusioned,Wheel_Baseline,Medium,Negative,The disenchanted sting of having an idealized conviction stripped away by harsh truth.
+Surprise,Amazed,Wheel_Baseline,Medium,Positive,Delighted wonder and admiration sparked by something astonishing or exceptional.
+Surprise,Awe,Wheel_Baseline,High,Ambivalent/Complex,"Vast, reverent overwhelm in the presence of something immense that transcends comprehension."
+Surprise,Astonished,Wheel_Baseline,High,Positive,A high-intensity shock of wonder that temporarily silences ordinary thought.
+Surprise,Excited,Wheel_Baseline,Medium,Positive,"An energetic, anticipatory arousal suffused with eager delight."
+Surprise,Energetic,Wheel_Baseline,Medium,Positive,A surge of buoyant physiological vitality and psychological drive to act.
+Surprise,Eager,Wheel_Baseline,Low,Positive,"An impatient, enthusiastic appetite to engage with an anticipated upcoming experience."
+Surprise,Flabbergasted,Beyond_Wheel,High,Ambivalent/Complex,"A state of speechless, motionless dumbfoundment at something utterly absurd or unexpected."
+Surprise,Baffled,Beyond_Wheel,Medium,Negative,"A frustrated, completely blocked attempt to make sense of an impenetrable conundrum."
+Surprise,Bewildered,Beyond_Wheel,Medium,Negative,"A lost, dazed disorientation where one's mental compass fails completely."
+Surprise,Stupefied,Beyond_Wheel,High,Negative,"A dazed, groggy paralysis of thought caused by overwhelming, incomprehensible shock."
+Surprise,Dumbfounded,Beyond_Wheel,High,Ambivalent/Complex,Rendered literally mute by astonishment and sheer incredulity.
+Surprise,Wonderstruck,Beyond_Wheel,High,Positive,"Captured completely by pure childlike awe, enchantment, and innocent astonishment."
+Surprise,Nonplussed,Beyond_Wheel,Medium,Ambivalent/Complex,"A paused, paralyzed bafflement where one is at a complete loss for how to react."
+Surprise,Sonder,Forgotten_Nuance,Low,Ambivalent/Complex,"The sudden, humbling realization that each random passerby lives a life as vivid as one's own."
+Surprise,Anagnorisis,Forgotten_Nuance,High,Ambivalent/Complex,"The shocking, worldview-shattering moment of recognition when critical truth is uncovered."
+Surprise,Kenchopsia,Forgotten_Nuance,Low,Negative,"The eerie, uncanny sadness of a place that is usually bustling, now abandoned and quiet."
+Surprise,Elevation,Forgotten_Nuance,High,Positive,"A warm, uplifting moral awe experienced when witnessing acts of profound human virtue."
+Surprise,Rubatosis,Forgotten_Nuance,Low,Ambivalent/Complex,"The unsettling, hyper-focused awareness of one's own heartbeat in the silence of consciousness."
+Joy,Happy,Wheel_Baseline,Medium,Positive,"A foundational affective state of well-being, contentment, and positive hedonic tone."
+Joy,Optimistic,Wheel_Baseline,Medium,Positive,"A buoyant, forward-looking confidence that favorable outcomes will materialize."
+Joy,Hopeful,Wheel_Baseline,Medium,Positive,"A persevering, trusting desire focused on the possibility of redemption or relief."
+Joy,Inspired,Wheel_Baseline,High,Positive,"A transcendent creative spark that compels immediate vision, vitality, and expression."
+Joy,Trusting,Wheel_Baseline,Low,Positive,"A secure, relaxed vulnerability that places faith in the goodwill of another."
+Joy,Sensitive,Wheel_Baseline,Low,Ambivalent/Complex,"A finely tuned, receptive permeability to emotional and sensory subtleties."
+Joy,Intimate,Wheel_Baseline,Medium,Positive,"A warm, deeply bonded closeness marked by authentic self-disclosure and recognition."
+Joy,Peaceful,Wheel_Baseline,Low,Positive,"A tranquil, non-turbulent serenity free from internal conflict or external threat."
+Joy,Loving,Wheel_Baseline,High,Positive,"An expansive, unconditional warmth that actively wills the good of another person."
+Joy,Thankful,Wheel_Baseline,Low,Positive,"A warm, acknowledging recognition of gifts, assistance, or undeserved grace received."
+Joy,Powerful,Wheel_Baseline,High,Positive,"A potent sensation of self-efficacy, mastery, and capacity to shape reality."
+Joy,Courageous,Wheel_Baseline,High,Positive,"A resolute willingness to confront danger, pain, or uncertainty despite feeling fear."
+Joy,Creative,Wheel_Baseline,Medium,Positive,"A playful, generative vitality driven to synthesize novel patterns and expressions."
+Joy,Accepted,Wheel_Baseline,Medium,Positive,"The soothing, validating sensation of being welcomed without reservation or judgment."
+Joy,Respected,Wheel_Baseline,Medium,Positive,"A dignified validation that one's boundaries, skills, and personhood are held in high esteem."
+Joy,Valued,Wheel_Baseline,Medium,Positive,"A cherished security that one's presence makes a meaningful, irreplaceable difference."
+Joy,Proud,Wheel_Baseline,Medium,Positive,"A buoyant satisfaction in one's personal agency, moral triumphs, or family achievements."
+Joy,Successful,Wheel_Baseline,Medium,Positive,"A triumphantly validated state of having accomplished a hard-won, cherished goal."
+Joy,Confident,Wheel_Baseline,Medium,Positive,"An unshakeable, calm reliance on one's own faculties, instincts, and capabilities."
+Joy,Interested,Wheel_Baseline,Low,Positive,"An engaging, attentive curiosity focused on exploring an object, idea, or person."
+Joy,Curious,Wheel_Baseline,Low,Positive,An itch for discovery that drives active investigative behavior toward the unfamiliar.
+Joy,Inquisitive,Wheel_Baseline,Low,Positive,"An analytical, eager disposition bent on questioning and prying open mysteries."
+Joy,Content,Wheel_Baseline,Low,Positive,"A restful, undemanding harmony marked by feeling complete with things as they are."
+Joy,Joyful,Wheel_Baseline,High,Positive,"An effervescent, exuberant bubbling of spontaneous delight and deep fulfillment."
+Joy,Free,Wheel_Baseline,High,Positive,"An expansive lightness born from the elimination of constraint, guilt, or bondage."
+Joy,Playful,Wheel_Baseline,Low,Positive,"A lighthearted, spontaneous impulse to engage in imaginative and non-serious interaction."
+Joy,Cheeky,Wheel_Baseline,Low,Positive,"A mischievous, insolent charm that delightfully tests social boundaries without malice."
+Joy,Aroused,Wheel_Baseline,Medium,Positive,"An electrifying blend of sensual activation, anticipation, and erotic or vital interest."
+Joy,Serenity,Beyond_Wheel,Low,Positive,"A profound, luminous stillness of spirit untroubled by tempestuous worldly desire."
+Joy,Elation,Beyond_Wheel,High,Positive,"A soaring, giddy altitude of joyous excitement and triumph."
+Joy,Euphoria,Beyond_Wheel,High,Positive,"An intense, intoxicating state of supreme bliss, ecstasy, and sensory brightness."
+Joy,Ecstasy,Beyond_Wheel,High,Positive,A transport of overwhelming joy that obliterates conscious boundaries and mundane time.
+Joy,Exuberance,Beyond_Wheel,High,Positive,"A roaring, uncontainable overflow of buoyant animal spirits and joyous vitality."
+Joy,Glee,Beyond_Wheel,Medium,Positive,"A bubbling, infectious delight often accompanied by laughter and clapping of hands."
+Joy,Gratitude,Beyond_Wheel,Medium,Positive,"A profound, heart-centered appreciation toward existence or benefactors for life's gifts."
+Joy,Jubilation,Beyond_Wheel,High,Positive,Triumphant communal celebration marked by uninhibited rejoicing and pageantry.
+Joy,Bliss,Beyond_Wheel,High,Positive,"Pure, unadulterated spiritual delight completely free from pain, tension, or desire."
+Joy,Amusement,Beyond_Wheel,Low,Positive,"A light, chuckling pleasure provoked by wit, absurd incongruity, or gentle humor."
+Joy,Zest,Beyond_Wheel,Medium,Positive,"An enthusiastic, spice-laden gusto that approaches life with energetic relish."
+Joy,Fervor,Beyond_Wheel,High,Positive,"A passionate, burning intensity of feeling and devotion directed toward a cause."
+Joy,Limerence,Forgotten_Nuance,High,Ambivalent/Complex,"An involuntary, obsessive infatuation marked by romantic longing and acute sensitivity to reciprocation."
+Joy,Compersion,Forgotten_Nuance,Medium,Positive,"The empathetic, unselfish joy experienced when witnessing a romantic partner's joy with another."
+Joy,Mudita,Forgotten_Nuance,Medium,Positive,"Pure, unadulterated vicarious joy in the flourishing, success, and good fortune of others."
+Joy,Numinous Reverence,Forgotten_Nuance,High,Ambivalent/Complex,"A terrifying yet enchanting awe felt before an overwhelming, divine mystery."
+Joy,Meraki,Forgotten_Nuance,Medium,Positive,"The soulful, expressive fulfillment of putting total love, care, and selfhood into creative work."
+Joy,Pronoia,Forgotten_Nuance,Medium,Positive,"The delightful, conspiratorial sensation that the universe is actively conspiring to shower one with blessings."
+Joy,Eudaimonia,Forgotten_Nuance,Medium,Positive,"A deep, flourishing contentment rooted in living a virtuous, purposeful, and actualized life."
+Joy,Ikigai-Resonance,Forgotten_Nuance,Medium,Positive,"The centering joy of feeling one's passion, vocation, mission, and daily work lock into absolute alignment."

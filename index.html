@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Atlas of Human Emotion</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f8f9fa; }
+        #chart-container { position: relative; width: 1000px; height: 600px; margin: 20px auto; background: white; border: 1px solid #ddd; }
+        .tooltip {
+            position: absolute; text-align: center; padding: 6px; font-size: 12px; background: rgba(0,0,0,0.8);
+            color: #fff; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity 0.2s;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: #fff; padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative;
+        }
+        .close-btn { position: absolute; top: 10px; right: 15px; cursor: pointer; font-size: 20px; font-weight: bold; }
+        .emotion-title { margin-top: 0; color: #333; text-transform: uppercase; border-bottom: 2px solid #eee; padding-bottom: 10px;}
+        .meta-tag { display: inline-block; padding: 4px 8px; background: #eee; border-radius: 12px; font-size: 12px; margin-right: 5px; margin-bottom: 10px;}
+    </style>
+</head>
+<body>
+
+<div id="chart-container"></div>
+<div id="tooltip" class="tooltip"></div>
+
+<!-- Modal -->
+<div id="emotionModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="modal-title" class="emotion-title">Emotion Name</h2>
+        <div>
+            <span class="meta-tag" id="modal-valence">Valence: </span>
+            <span class="meta-tag" id="modal-intensity">Intensity: </span>
+            <span class="meta-tag" id="modal-status">Status: </span>
+        </div>
+        <p id="modal-definition">Definition goes here.</p>
+    </div>
+</div>
+
+<script>
+    const width = 1000, height = 600;
+    const margin = { top: 60, right: 40, bottom: 60, left: 60 };
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+
+    const svg = d3.select("#chart-container").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Define Background Zones (Approximated based on image mapping)
+    const zones = [
+        { name: "Anger", x: 0, y: 0, w: 0.2, h: 0.5, color: "#f0f4f8" },
+        { name: "Fear", x: 0.2, y: 0, w: 0.25, h: 0.5, color: "#8da0cb" },
+        { name: "Sadness", x: 0, y: 0.5, w: 0.45, h: 0.5, color: "#a6cee3" },
+        // ... Additional zones would be mapped to grid percentages here
+    ];
+
+    // Scales
+    const xScale = d3.scaleLinear().domain([-1, 1]).range([0, innerWidth]); // -1 (Negative) to 1 (Positive)
+    const yScale = d3.scaleLinear().domain([-1, 1]).range([innerHeight, 0]); // -1 (Low) to 1 (High)
+
+    // Load CSV
+    d3.csv("emotion_taxonomy.csv").then(data => {
+        // Parse and clean data
+        data.forEach(d => {
+            d.x = xScale(parseFloat(d.Valence_Score));
+            d.y = yScale(parseFloat(d.Intensity_Score));
+            d.r = 12; // Base radius
+        });
+
+        // Resolve Overlaps using Force Simulation
+        const simulation = d3.forceSimulation(data)
+            .force("x", d3.forceX(d => d.x).strength(1))
+            .force("y", d3.forceY(d => d.y).strength(1))
+            .force("collide", d3.forceCollide(d => d.r + 2))
+            .stop();
+
+        for (let i = 0; i < 120; ++i) simulation.tick();
+
+        // Render Points
+        const points = svg.selectAll(".point")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", d => `translate(${d.x},${d.y})`)
+            .style("cursor", "pointer");
+
+        // Append paths/shapes based on data logic (simplified to circles here for base structure)
+        points.append("circle")
+            .attr("r", d => d.r)
+            .attr("fill", d => d.Taxonomy_Status === 'Wheel Baseline' ? '#333' : 'none')
+            .attr("stroke", "#333")
+            .attr("stroke-width", 2);
+
+        // Hover & Click Interactions
+        const tooltip = d3.select("#tooltip");
+        
+        points.on("mouseover", (event, d) => {
+            tooltip.style("opacity", 1)
+                   .html(`<strong>${d.Emotion}</strong>`)
+                   .style("left", (event.pageX + 10) + "px")
+                   .style("top", (event.pageY - 20) + "px");
+        }).on("mouseout", () => {
+            tooltip.style("opacity", 0);
+        }).on("click", (event, d) => {
+            openModal(d);
+        });
+    });
+
+    function openModal(data) {
+        document.getElementById('modal-title').innerText = data.Emotion;
+        document.getElementById('modal-valence').innerText = "Valence: " + data.Valence;
+        document.getElementById('modal-intensity').innerText = "Intensity: " + data.Intensity;
+        document.getElementById('modal-status').innerText = "Status: " + data.Taxonomy_Status;
+        document.getElementById('modal-definition').innerText = data.Definition;
+        document.getElementById('emotionModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('emotionModal').style.display = 'none';
+    }
+</script>
+</body>
+</html>
