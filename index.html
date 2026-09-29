@@ -52,60 +52,70 @@
 
     const svg = d3.select("#chart-container").append("svg")
         .attr("width", width)
-        .attr("height", height)
-        .append("g")
+        .attr("height", height);
+    
+    // Add hatched pattern for "Forgotten Nuances"
+    svg.append("defs")
+        .append("pattern")
+        .attr("id", "crosshatch")
+        .attr("width", 4).attr("height", 4)
+        .attr("patternTransform", "rotate(45 0 0)")
+        .attr("patternUnits", "userSpaceOnUse")
+        .append("line")
+        .attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 4)
+        .attr("stroke", "#444").attr("stroke-width", 2);
+
+    const chart = svg.append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // Define Background Zones (Approximated based on image mapping)
-    const zones = [
-        { name: "Anger", x: 0, y: 0, w: 0.2, h: 0.5, color: "#f0f4f8" },
-        { name: "Fear", x: 0.2, y: 0, w: 0.25, h: 0.5, color: "#8da0cb" },
-        { name: "Sadness", x: 0, y: 0.5, w: 0.45, h: 0.5, color: "#a6cee3" },
-        // ... Additional zones would be mapped to grid percentages here
-    ];
-
-    // Scales
-    const xScale = d3.scaleLinear().domain([-1, 1]).range([0, innerWidth]); // -1 (Negative) to 1 (Positive)
-    const yScale = d3.scaleLinear().domain([-1, 1]).range([innerHeight, 0]); // -1 (Low) to 1 (High)
 
     // Load CSV
     d3.csv("emotion_taxonomy.csv").then(data => {
-        // Parse and clean data
+        
         data.forEach(d => {
-            d.x = xScale(parseFloat(d.Valence_Score));
-            d.y = yScale(parseFloat(d.Intensity_Score));
-            d.r = 12; // Base radius
+            // 1. Map Categorical Text to Coordinate Grid Percentages
+            let vPos = d.Valence === 'Negative' ? 0.25 : (d.Valence === 'Positive' ? 0.75 : 0.5);
+            let iPos = d.Intensity === 'High' ? 0.25 : (d.Intensity === 'Low' ? 0.75 : 0.5); 
+            
+            // 2. Apply Coordinates with Random Scatter (Prevents overlapping centers)
+            d.x = (vPos * innerWidth) + (Math.random() * 60 - 30);
+            d.y = (iPos * innerHeight) + (Math.random() * 60 - 30);
+            d.r = 14; 
         });
 
-        // Resolve Overlaps using Force Simulation
+        // 3. Resolve Overlaps using Force Simulation
         const simulation = d3.forceSimulation(data)
-            .force("x", d3.forceX(d => d.x).strength(1))
-            .force("y", d3.forceY(d => d.y).strength(1))
-            .force("collide", d3.forceCollide(d => d.r + 2))
+            .force("x", d3.forceX(d => d.x).strength(0.3))
+            .force("y", d3.forceY(d => d.y).strength(0.3))
+            .force("collide", d3.forceCollide(d => d.r + 2).iterations(4))
             .stop();
 
-        for (let i = 0; i < 120; ++i) simulation.tick();
+        // Run physics engine statically before rendering
+        for (let i = 0; i < 150; ++i) simulation.tick();
 
-        // Render Points
-        const points = svg.selectAll(".point")
+        // 4. Render Interactive Points
+        const points = chart.selectAll(".point")
             .data(data)
             .enter().append("g")
             .attr("transform", d => `translate(${d.x},${d.y})`)
             .style("cursor", "pointer");
 
-        // Append paths/shapes based on data logic (simplified to circles here for base structure)
+        // Apply Taxonomy Status Styles (Solid, Hollow, Patterned)
         points.append("circle")
             .attr("r", d => d.r)
-            .attr("fill", d => d.Taxonomy_Status === 'Wheel Baseline' ? '#333' : 'none')
-            .attr("stroke", "#333")
+            .attr("fill", d => {
+                if (d.Wheel_Status === 'Wheel_Baseline') return '#444';
+                if (d.Wheel_Status === 'Forgotten_Nuance') return 'url(#crosshatch)';
+                return '#fff'; // Beyond_Wheel (Hollow)
+            })
+            .attr("stroke", "#444")
             .attr("stroke-width", 2);
 
-        // Hover & Click Interactions
+        // 5. Update Accessors for Tooltip & Modal based on exact CSV headers
         const tooltip = d3.select("#tooltip");
         
         points.on("mouseover", (event, d) => {
             tooltip.style("opacity", 1)
-                   .html(`<strong>${d.Emotion}</strong>`)
+                   .html(`<strong>${d.Emotion_Term}</strong>`)
                    .style("left", (event.pageX + 10) + "px")
                    .style("top", (event.pageY - 20) + "px");
         }).on("mouseout", () => {
@@ -116,11 +126,11 @@
     });
 
     function openModal(data) {
-        document.getElementById('modal-title').innerText = data.Emotion;
+        document.getElementById('modal-title').innerText = data.Emotion_Term;
         document.getElementById('modal-valence').innerText = "Valence: " + data.Valence;
         document.getElementById('modal-intensity').innerText = "Intensity: " + data.Intensity;
-        document.getElementById('modal-status').innerText = "Status: " + data.Taxonomy_Status;
-        document.getElementById('modal-definition').innerText = data.Definition;
+        document.getElementById('modal-status').innerText = "Status: " + data.Wheel_Status.replace('_', ' ');
+        document.getElementById('modal-definition').innerText = data.Precise_Definition;
         document.getElementById('emotionModal').style.display = 'flex';
     }
 
